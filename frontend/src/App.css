@@ -1,0 +1,144 @@
+.app {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.app__reader-view {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  height: 0;
+  overflow: hidden;
+}
+
+.app__reader-header {
+  background: white;
+  padding: 16px 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.back-button {
+  padding: 10px 20px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #667eea;
+  background: white;
+  border: 2px solid #667eea;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.back-button:hover {
+  background: #667eea;
+  color: white;
+  transform: translateX(-4px);
+}
+
+.app__header {
+  flex-shrink: 0;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+  background: #fff;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.app__header h1 {
+  margin: 0 0 0.25rem;
+  font-size: 1.5rem;
+  font-weight: 650;
+}
+
+.app__sub {
+  margin: 0;
+  color: #6b7280;
+  font-size: 0.85rem;
+}
+
+.app__notes-toggle {
+  padding: 0.5rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: #fff;
+  color: #374151;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+
+.app__notes-toggle:hover {
+  background: #f9fafb;
+  border-color: #9ca3af;
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.app__notes-view {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  padding: 1rem;
+  background: #f3f4f6;
+}
+
+.app__drop {
+  flex-shrink: 0;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.75rem 1rem;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #e5e7eb;
+  background: #f9fafb;
+}
+
+.app__upload {
+  display: inline-block;
+  padding: 0.5rem 1rem;
+  background: #111827;
+  color: #fff;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  cursor: pointer;
+}
+
+.app__upload:has(input:disabled) {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.app__drop-hint {
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+.app__msg {
+  flex-shrink: 0;
+  margin: 0;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.9rem;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.app__msg--error {
+  color: #b91c1c;
+  background: #fef2f2;
+}
+
+.app__reader-container {
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}

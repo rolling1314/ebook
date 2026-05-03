@@ -1,0 +1,368 @@
+/* 笔记预览弹窗样式 */
+.note-popup {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
+  padding: 1.25rem;
+  min-width: 280px;
+  max-width: 400px;
+  animation: fadeIn 0.2s ease-out;
+  border: 1px solid #e5e7eb;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.note-popup__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.75rem;
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.note-popup__icon {
+  font-size: 1.25rem;
+}
+
+.note-popup__date {
+  font-size: 0.75rem;
+  color: #9ca3af;
+}
+
+.note-popup__quote {
+  padding: 0.75rem;
+  background: #f9fafb;
+  border-left: 3px solid #3b82f6;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  color: #374151;
+  font-style: italic;
+  line-height: 1.6;
+  margin-bottom: 0.75rem;
+  max-height: 100px;
+  overflow-y: auto;
+}
+
+.note-popup__content {
+  font-size: 0.875rem;
+  color: #111827;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  margin-bottom: 0.75rem;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.note-popup__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-top: 0.5rem;
+  border-top: 1px solid #f3f4f6;
+}
+
+.note-popup__color {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  display: inline-block;
+  border: 2px solid white;
+  box-shadow: 0 0 0 1px #e5e7eb;
+}
+
+.note-popup__close {
+  padding: 0.375rem 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: white;
+  color: #374151;
+  font-size: 0.8125rem;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.note-popup__close:hover {
+  background: #f9fafb;
+  border-color: #9ca3af;
+}
+
+/* 笔记对话框样式 */
+.note-dialog {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  padding: 1.5rem;
+  min-width: 320px;
+  max-width: 400px;
+  z-index: 10000;
+  animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translate(-50%, calc(-100% - 10px));
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -100%);
+  }
+}
+
+.note-dialog::before {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid white;
+}
+
+.note-dialog__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.note-dialog__header h4 {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.note-dialog__close {
+  padding: 0.25rem;
+  border: none;
+  background: transparent;
+  color: #6b7280;
+  font-size: 1.25rem;
+  cursor: pointer;
+  line-height: 1;
+  transition: color 0.2s;
+}
+
+.note-dialog__close:hover {
+  color: #111827;
+}
+
+.note-dialog__selected-text {
+  padding: 0.75rem;
+  background: #f9fafb;
+  border-left: 3px solid #3b82f6;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  color: #374151;
+  font-style: italic;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  max-height: 120px;
+  overflow-y: auto;
+}
+
+.note-dialog__colors {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  justify-content: center;
+}
+
+.color-picker-btn {
+  width: 32px;
+  height: 32px;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.color-picker-btn:hover {
+  transform: scale(1.1);
+}
+
+.color-picker-btn.active {
+  border-color: #111827;
+  box-shadow: 0 0 0 2px white, 0 0 0 4px #111827;
+}
+
+.color-picker-btn--yellow {
+  background: #fbbf24;
+}
+
+.color-picker-btn--green {
+  background: #10b981;
+}
+
+.color-picker-btn--blue {
+  background: #3b82f6;
+}
+
+.color-picker-btn--pink {
+  background: #ec4899;
+}
+
+.color-picker-btn--purple {
+  background: #8b5cf6;
+}
+
+.note-dialog__actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.note-dialog__btn {
+  flex: 1;
+  padding: 0.625rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: white;
+  color: #374151;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.note-dialog__btn:hover {
+  background: #f9fafb;
+  border-color: #9ca3af;
+}
+
+.note-dialog__btn--highlight {
+  border-color: #fbbf24;
+  color: #92400e;
+}
+
+.note-dialog__btn--highlight:hover {
+  background: #fffbeb;
+  border-color: #f59e0b;
+}
+
+.note-dialog__btn--note {
+  border-color: #3b82f6;
+  color: #1e40af;
+}
+
+.note-dialog__btn--note:hover {
+  background: #eff6ff;
+  border-color: #2563eb;
+}
+
+.note-dialog__btn--save {
+  width: 100%;
+  background: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+  margin-top: 0.75rem;
+}
+
+.note-dialog__btn--save:hover {
+  background: #2563eb;
+  border-color: #2563eb;
+}
+
+.note-dialog__textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-family: inherit;
+  line-height: 1.6;
+  resize: vertical;
+  transition: border-color 0.2s;
+}
+
+.note-dialog__textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.note-dialog__textarea::placeholder {
+  color: #9ca3af;
+}
+
+/* 高亮样式提示 */
+.epub-reader__hint {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+/* 加载状态 */
+.epub-reader__loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.95);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  gap: 1rem;
+}
+
+.epub-reader__spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid #e5e7eb;
+  border-top-color: #3b82f6;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.epub-reader__loading-overlay p {
+  font-size: 0.875rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+  .note-dialog {
+    min-width: 280px;
+    max-width: calc(100vw - 2rem);
+    padding: 1rem;
+  }
+
+  .note-dialog__selected-text {
+    font-size: 0.8125rem;
+    max-height: 80px;
+  }
+
+  .color-picker-btn {
+    width: 28px;
+    height: 28px;
+  }
+
+  .note-dialog__btn {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8125rem;
+  }
+}

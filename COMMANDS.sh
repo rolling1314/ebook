@@ -1,0 +1,58 @@
+#!/bin/bash
+
+# 电子书阅读器系统 - 快速启动命令
+
+echo "======================================"
+echo "📚 电子书阅读器系统"
+echo "======================================"
+echo ""
+echo "前端状态: ✅ 已运行 (http://localhost:5174)"
+echo ""
+echo "======================================"
+echo "需要执行的命令（按顺序）"
+echo "======================================"
+echo ""
+
+echo "1️⃣  安装后端依赖"
+echo "-----------------------------------"
+echo "cd /Users/apple/ebook/backend"
+echo "pip3 install -r requirements.txt"
+echo ""
+
+echo "2️⃣  初始化数据库"
+echo "-----------------------------------"
+echo "cd /Users/apple/ebook/backend"
+echo "python3 init_db.py"
+echo ""
+
+echo "3️⃣  启动后端服务（新终端）"
+echo "-----------------------------------"
+echo "cd /Users/apple/ebook/backend"
+echo "uvicorn main:app --reload --port 8000"
+echo ""
+
+echo "4️⃣  访问应用"
+echo "-----------------------------------"
+echo "打开浏览器: http://localhost:5174"
+echo ""
+
+echo "======================================"
+echo "如果数据库还没创建"
+echo "======================================"
+echo ""
+echo "psql -U postgres"
+echo "CREATE DATABASE ebook;"
+echo "CREATE USER crush WITH PASSWORD '123456';"
+echo "GRANT ALL PRIVILEGES ON DATABASE ebook TO crush;"
+echo "\\q"
+echo ""
+
+echo "======================================"
+echo "查看文档"
+echo "======================================"
+echo ""
+echo "📖 INSTALL_NOW.md     - 立即安装指南"
+echo "📖 QUICKSTART.md      - 快速启动指南"
+echo "📖 README.md          - 完整项目文档"
+echo "📖 FINAL_SUMMARY.md   - 最终总结"
+echo ""

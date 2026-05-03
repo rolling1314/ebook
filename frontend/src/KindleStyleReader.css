@@ -1,0 +1,457 @@
+/* Kindle 风格的笔记显示 */
+
+/* 笔记容器 - 显示在高亮文字下方 */
+.epub-note-inline {
+  position: relative;
+  display: inline-block;
+}
+
+.epub-note-marker {
+  position: absolute;
+  right: -8px;
+  top: -8px;
+  width: 16px;
+  height: 16px;
+  background: #ff9500;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  z-index: 10;
+}
+
+/* Kindle 风格的笔记卡片 */
+.kindle-note {
+  margin: 0.75rem 0;
+  padding: 0.75rem 1rem;
+  background: #fef9e7;
+  border-left: 4px solid #f39c12;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  line-height: 1.6;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  position: relative;
+}
+
+.kindle-note--yellow {
+  background: #fef9e7;
+  border-left-color: #f39c12;
+}
+
+.kindle-note--green {
+  background: #e8f8f5;
+  border-left-color: #1abc9c;
+}
+
+.kindle-note--blue {
+  background: #ebf5fb;
+  border-left-color: #3498db;
+}
+
+.kindle-note--pink {
+  background: #fdeef4;
+  border-left-color: #e91e63;
+}
+
+.kindle-note--purple {
+  background: #f4ecf7;
+  border-left-color: #9b59b6;
+}
+
+.kindle-note__header {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.75rem;
+  color: #666;
+}
+
+.kindle-note__icon {
+  font-size: 1rem;
+}
+
+.kindle-note__time {
+  color: #999;
+}
+
+.kindle-note__content {
+  color: #333;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+}
+
+.kindle-note__actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+  padding-top: 0.5rem;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.kindle-note__btn {
+  padding: 0.25rem 0.5rem;
+  border: none;
+  background: transparent;
+  color: #666;
+  font-size: 0.75rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.kindle-note__btn:hover {
+  color: #333;
+}
+
+/* 高亮文字样式 */
+.epub-highlight {
+  background-color: rgba(255, 235, 59, 0.3);
+  cursor: pointer;
+  transition: background-color 0.2s;
+  position: relative;
+  padding: 2px 0;
+}
+
+.epub-highlight:hover {
+  background-color: rgba(255, 235, 59, 0.5);
+}
+
+.epub-highlight--yellow {
+  background-color: rgba(251, 191, 36, 0.3);
+}
+
+.epub-highlight--yellow:hover {
+  background-color: rgba(251, 191, 36, 0.5);
+}
+
+.epub-highlight--green {
+  background-color: rgba(16, 185, 129, 0.3);
+}
+
+.epub-highlight--green:hover {
+  background-color: rgba(16, 185, 129, 0.5);
+}
+
+.epub-highlight--blue {
+  background-color: rgba(59, 130, 246, 0.3);
+}
+
+.epub-highlight--blue:hover {
+  background-color: rgba(59, 130, 246, 0.5);
+}
+
+.epub-highlight--pink {
+  background-color: rgba(236, 72, 153, 0.3);
+}
+
+.epub-highlight--pink:hover {
+  background-color: rgba(236, 72, 153, 0.5);
+}
+
+.epub-highlight--purple {
+  background-color: rgba(139, 92, 246, 0.3);
+}
+
+.epub-highlight--purple:hover {
+  background-color: rgba(139, 92, 246, 0.5);
+}
+
+/* 笔记指示器 - 小圆点 */
+.note-indicator {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  margin-left: 2px;
+  vertical-align: super;
+  cursor: pointer;
+}
+
+.note-indicator--yellow {
+  background: #f39c12;
+}
+
+.note-indicator--green {
+  background: #1abc9c;
+}
+
+.note-indicator--blue {
+  background: #3498db;
+}
+
+.note-indicator--pink {
+  background: #e91e63;
+}
+
+.note-indicator--purple {
+  background: #9b59b6;
+}
+
+/* 笔记展开/折叠动画 */
+.kindle-note-enter {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+}
+
+.kindle-note-enter-active {
+  max-height: 500px;
+  opacity: 1;
+  transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+}
+
+.kindle-note-exit {
+  max-height: 500px;
+  opacity: 1;
+}
+
+.kindle-note-exit-active {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease-in, opacity 0.3s ease-in;
+}
+
+/* 笔记对话框样式 */
+.note-dialog {
+  background: white;
+  border-radius: 12px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  padding: 1.5rem;
+  min-width: 320px;
+  max-width: 400px;
+  z-index: 10000;
+  animation: slideDown 0.2s ease-out;
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translate(-50%, calc(-100% - 10px));
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -100%);
+  }
+}
+
+.note-dialog::before {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent;
+  border-top: 8px solid white;
+}
+
+.note-dialog__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.note-dialog__header h4 {
+  margin: 0;
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #111827;
+}
+
+.note-dialog__close {
+  padding: 0.25rem;
+  border: none;
+  background: transparent;
+  color: #6b7280;
+  font-size: 1.25rem;
+  cursor: pointer;
+  line-height: 1;
+  transition: color 0.2s;
+}
+
+.note-dialog__close:hover {
+  color: #111827;
+}
+
+.note-dialog__selected-text {
+  padding: 0.75rem;
+  background: #f9fafb;
+  border-left: 3px solid #3b82f6;
+  border-radius: 4px;
+  font-size: 0.875rem;
+  color: #374151;
+  font-style: italic;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  max-height: 120px;
+  overflow-y: auto;
+}
+
+.note-dialog__colors {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  justify-content: center;
+}
+
+.color-picker-btn {
+  width: 32px;
+  height: 32px;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+
+.color-picker-btn:hover {
+  transform: scale(1.1);
+}
+
+.color-picker-btn.active {
+  border-color: #111827;
+  box-shadow: 0 0 0 2px white, 0 0 0 4px #111827;
+}
+
+.color-picker-btn--yellow {
+  background: #fbbf24;
+}
+
+.color-picker-btn--green {
+  background: #10b981;
+}
+
+.color-picker-btn--blue {
+  background: #3b82f6;
+}
+
+.color-picker-btn--pink {
+  background: #ec4899;
+}
+
+.color-picker-btn--purple {
+  background: #8b5cf6;
+}
+
+.note-dialog__actions {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.note-dialog__btn {
+  flex: 1;
+  padding: 0.625rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  background: white;
+  color: #374151;
+  font-size: 0.875rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.note-dialog__btn:hover {
+  background: #f9fafb;
+  border-color: #9ca3af;
+}
+
+.note-dialog__btn--highlight {
+  border-color: #fbbf24;
+  color: #92400e;
+}
+
+.note-dialog__btn--highlight:hover {
+  background: #fffbeb;
+  border-color: #f59e0b;
+}
+
+.note-dialog__btn--note {
+  border-color: #3b82f6;
+  color: #1e40af;
+}
+
+.note-dialog__btn--note:hover {
+  background: #eff6ff;
+  border-color: #2563eb;
+}
+
+.note-dialog__btn--save {
+  width: 100%;
+  background: #3b82f6;
+  color: white;
+  border-color: #3b82f6;
+  margin-top: 0.75rem;
+}
+
+.note-dialog__btn--save:hover {
+  background: #2563eb;
+  border-color: #2563eb;
+}
+
+.note-dialog__textarea {
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid #d1d5db;
+  border-radius: 6px;
+  font-size: 0.875rem;
+  font-family: inherit;
+  line-height: 1.6;
+  resize: vertical;
+  transition: border-color 0.2s;
+}
+
+.note-dialog__textarea:focus {
+  outline: none;
+  border-color: #3b82f6;
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+}
+
+.note-dialog__textarea::placeholder {
+  color: #9ca3af;
+}
+
+/* 高亮样式提示 */
+.epub-reader__hint {
+  font-size: 0.75rem;
+  color: #6b7280;
+}
+
+/* 响应式 */
+@media (max-width: 768px) {
+  .kindle-note {
+    padding: 0.625rem 0.875rem;
+    font-size: 0.8125rem;
+  }
+
+  .note-dialog {
+    min-width: 280px;
+    max-width: calc(100vw - 2rem);
+    padding: 1rem;
+  }
+
+  .note-dialog__selected-text {
+    font-size: 0.8125rem;
+    max-height: 80px;
+  }
+
+  .color-picker-btn {
+    width: 28px;
+    height: 28px;
+  }
+
+  .note-dialog__btn {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.8125rem;
+  }
+}
