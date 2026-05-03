@@ -39,19 +39,27 @@ export const clearUser = (): void => {
 // 创建带认证的fetch请求
 const authFetch = async (url: string, options: RequestInit = {}) => {
   const token = getToken();
+  console.log('[authFetch]', url, 'token exists:', !!token, 'token preview:', token?.substring(0, 20) + '...');
   const headers: HeadersInit = {
     ...options.headers,
   };
 
   if (token) {
     headers['Authorization'] = `Bearer ${token}`;
+    console.log('[authFetch] Added Authorization header');
+  } else {
+    console.warn('[authFetch] No token found!');
   }
+
+  console.log('[authFetch] Request headers:', headers);
 
   const response = await fetch(`${API_BASE_URL}${url}`, {
     ...options,
     headers,
   });
 
+  console.log('[authFetch]', url, 'response status:', response.status);
+  
   // 不要在这里自动跳转，让调用者决定如何处理 401
   return response;
 };

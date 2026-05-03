@@ -30,6 +30,8 @@ export function EpubReaderWithNotes({
   const hostRef = useRef<HTMLDivElement>(null)
   const renditionRef = useRef<Rendition | null>(null)
   const bookRef = useRef<Book | null>(null)
+  const notesRef = useRef(notes)
+  const highlightsRef = useRef(highlights)
   const [error, setError] = useState<string | null>(null)
   const [currentPage, setCurrentPage] = useState<number>(0)
   const [totalPages, setTotalPages] = useState<number>(0)
@@ -42,6 +44,15 @@ export function EpubReaderWithNotes({
   const [noteContent, setNoteContent] = useState('')
   const [selectedColor, setSelectedColor] = useState<'yellow' | 'green' | 'blue' | 'pink' | 'purple'>('yellow')
   const [dialogPosition, setDialogPosition] = useState({ x: 0, y: 0 })
+
+  useEffect(() => { 
+    console.log('[notesRef] updating, count:', notes.length)
+    notesRef.current = notes 
+  }, [notes])
+  useEffect(() => { 
+    console.log('[highlightsRef] updating, count:', highlights.length)
+    highlightsRef.current = highlights 
+  }, [highlights])
 
   useEffect(() => {
     if (!hostRef.current || !epubUrl) return
@@ -104,9 +115,15 @@ export function EpubReaderWithNotes({
       renditionRef.current = rendition
 
       const layout = () => {
-        if (cancelled) return
+        if (cancelled || !renditionRef.current) return
         const { w, h } = measure()
-        if (w > 0 && h > 0) rendition.resize(w, h)
+        if (w > 0 && h > 0) {
+          try {
+            renditionRef.current.resize(w, h)
+          } catch (err) {
+            console.warn('Resize failed:', err)
+          }
+        }
       }
 
       ro = new ResizeObserver(() => layout())
@@ -300,17 +317,26 @@ export function EpubReaderWithNotes({
 
   // 渲染已有的高亮和笔记
   const renderExistingAnnotations = useCallback(() => {
-    if (!renditionRef.current) return
+    if (!renditionRef.current) {
+      console.log('[renderExistingAnnotations] rendition not ready')
+      return
+    }
 
-    // 清除之前的标注
+    const currentNotes = notesRef.current
+    const currentHighlights = highlightsRef.current
+    
+    console.log('[renderExistingAnnotations] rendering:', {
+      notesCount: currentNotes.length,
+      highlightsCount: currentHighlights.length
+    })
+
     renditionRef.current.annotations.remove('*', 'highlight')
 
-    // 渲染所有高亮
-    highlights.forEach((highlight) => {
+    currentHighlights.forEach((highlight) => {
       renditionRef.current?.annotations.highlight(
         highlight.cfi,
         {},
-        () => {}, // 空的点击处理
+        () => {},
         '',
         {
           fill: getColorHex(highlight.color),
@@ -320,13 +346,11 @@ export function EpubReaderWithNotes({
       )
     })
 
-    // 渲染所有笔记（带高亮 + 图标）
-    notes.forEach((note) => {
+    currentNotes.forEach((note) => {
       renditionRef.current?.annotations.highlight(
         note.cfi,
         {},
         (e: MouseEvent) => {
-          // 点击笔记高亮时显示笔记内容
           e.preventDefault()
           showNotePopup(note, e)
         },
@@ -338,7 +362,6 @@ export function EpubReaderWithNotes({
         }
       )
 
-      // 在高亮旁边添加笔记图标
       renditionRef.current?.annotations.mark(
         note.cfi,
         {},
@@ -348,7 +371,7 @@ export function EpubReaderWithNotes({
         }
       )
     })
-  }, [notes, highlights])
+  }, [])
 
   // 显示笔记弹窗
   const showNotePopup = (note: Note, event: MouseEvent) => {
@@ -415,6 +438,7 @@ export function EpubReaderWithNotes({
 
   // 当笔记或高亮变化时重新渲染
   useEffect(() => {
+    console.log('[useEffect] notes/highlights changed, rendition ready:', !!renditionRef.current)
     if (renditionRef.current) {
       renderExistingAnnotations()
     }

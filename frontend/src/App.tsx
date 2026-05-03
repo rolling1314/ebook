@@ -22,11 +22,21 @@ function App() {
     const validateAuth = async () => {
       const token = getToken();
       const user = getUser();
+      console.log('[validateAuth] Token exists:', !!token, 'User:', user?.username)
       
       if (token && user) {
         try {
           await getCurrentUser();
-          setViewMode('library');
+          const savedBookId = localStorage.getItem('currentBookId');
+          const savedBookUrl = localStorage.getItem('currentBookUrl');
+          console.log('[validateAuth] Saved book:', savedBookId)
+          if (savedBookId && savedBookUrl) {
+            setSelectedBookId(savedBookId);
+            setSelectedBookUrl(savedBookUrl);
+            setViewMode('reader');
+          } else {
+            setViewMode('library');
+          }
         } catch (err) {
           console.error('Token validation failed:', err);
           clearToken();
@@ -44,11 +54,16 @@ function App() {
   }, []);
 
   const loadNotesAndHighlights = useCallback(async (bookId: string) => {
+    console.log('[loadNotesAndHighlights] Loading for bookId:', bookId)
     try {
       const [notesData, highlightsData] = await Promise.all([
         getNotes(bookId),
         getHighlights(bookId)
       ]);
+      console.log('[loadNotesAndHighlights] Loaded:', {
+        notes: notesData.length,
+        highlights: highlightsData.length
+      })
       const validColors = ['yellow', 'green', 'blue', 'pink', 'purple'] as const;
       type ValidColor = typeof validColors[number];
       const toValidColor = (c: string): ValidColor => 
@@ -72,8 +87,17 @@ function App() {
       })));
     } catch (err) {
       console.error('Failed to load notes/highlights:', err);
+      // 401 错误时清空笔记，避免显示旧数据
+      setNotes([]);
+      setHighlights([]);
     }
   }, []);
+
+  useEffect(() => {
+    if (selectedBookId && viewMode === 'reader') {
+      loadNotesAndHighlights(selectedBookId);
+    }
+  }, [selectedBookId, viewMode, loadNotesAndHighlights]);
 
   const handleAuthSuccess = () => {
     setViewMode('library');
@@ -82,6 +106,8 @@ function App() {
   const handleLogout = () => {
     clearToken();
     clearUser();
+    localStorage.removeItem('currentBookId');
+    localStorage.removeItem('currentBookUrl');
     setViewMode('auth');
     setSelectedBookId(null);
     setSelectedBookUrl(null);
@@ -91,6 +117,8 @@ function App() {
     setSelectedBookId(bookId);
     setSelectedBookUrl(bookUrl);
     setViewMode('reader');
+    localStorage.setItem('currentBookId', bookId);
+    localStorage.setItem('currentBookUrl', bookUrl);
     loadNotesAndHighlights(bookId);
   };
 
@@ -100,6 +128,8 @@ function App() {
     setSelectedBookUrl(null);
     setNotes([]);
     setHighlights([]);
+    localStorage.removeItem('currentBookId');
+    localStorage.removeItem('currentBookUrl');
   };
 
   const handleNoteCreate = useCallback(async (noteData: Omit<ReaderNote, 'id' | 'createdAt' | 'updatedAt'>) => {
